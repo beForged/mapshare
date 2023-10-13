@@ -2,7 +2,7 @@
 const garminKMLUrl = 'https://share.garmin.com/Feed/Share/44RUF?d1=2023-01-01T00:00Z';
 
 // Create a Leaflet map centered at a specific location
-const map = L.map('map').setView([51.505, 115.6], 13);
+const map = L.map('map').setView([51.505, -115.6], 13);
 
 // Add the OpenStreetMap tile layer to the map
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
