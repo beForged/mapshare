@@ -9,8 +9,17 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-// Fetch the Garmin KML data and add it to the map
-fetch(garminKMLUrl)
+// Fetch the Garmin KML data and add it to the map via proxy
+fetch('/.vercel/functions/proxy', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        url: garminKMLUrl, 
+        method: 'GET', // or 'POST', 'PUT', etc. depending on the desired HTTP method
+    })
+})
     .then(response => response.text())
     .then(kmlText => {
         const parser = new DOMParser();
