@@ -24,12 +24,12 @@ fetch('/api/proxy', {
         console.log("response ", response);
         response.text()})
     .then(kmlText => {
+        console.log(kmlText);
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
-        console.log(kmlDoc);
         const trackCoordinates = kmlDoc.querySelectorAll('coordinates')[0].textContent.trim().split(' ');
+        console.log(trackCoordinates);
         const latlngs = trackCoordinates.map(coord => {
-            console.log(coord)
             const [lng, lat] = coord.split(',').map(parseFloat);
             return L.latLng(lat, lng);
         });
