@@ -1,5 +1,5 @@
 // Define the Garmin KML URL
-const garminKMLUrl = 'https://share.garmin.com/Feed/ShareLoader/44RUF';
+const garminKMLUrl = 'https://share.garmin.com/Feed/Share/44RUF?d1=2023-01-01T00:00Z';
 
 // Create a Leaflet map centered at a specific location
 const map = L.map('map').setView([51.505, -0.09], 13);
