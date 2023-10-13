@@ -20,7 +20,7 @@ fetch('/api/proxy', {
         method: 'GET', // or 'POST', 'PUT', etc. depending on the desired HTTP method
     })
 })
-    .then(response => response.json())
+    .then(response => response.text())
     .then(kmlText => {
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
