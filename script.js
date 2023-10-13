@@ -10,7 +10,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Fetch the Garmin KML data and add it to the map via proxy
-fetch('/.vercel/functions/proxy', {
+fetch('/api/proxy', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json'
@@ -24,18 +24,21 @@ fetch('/.vercel/functions/proxy', {
     .then(kmlText => {
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
-        
+        console.log(kmlDoc);
         const trackCoordinates = kmlDoc.querySelectorAll('coordinates')[0].textContent.trim().split(' ');
         const latlngs = trackCoordinates.map(coord => {
             console.log(coord)
             const [lng, lat] = coord.split(',').map(parseFloat);
             return L.latLng(lat, lng);
         });
-        
+
         // Create a polyline from the coordinates and add it to the map
         const polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
-        
+
         // Fit the map to the polyline bounds
         map.fitBounds(polyline.getBounds());
+    })
+    .catch(error => {
+        console.error(error);
     });
 
