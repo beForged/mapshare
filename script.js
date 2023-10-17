@@ -29,8 +29,8 @@ fetch('/api/proxy', {
         const data = parseKML(kmlDoc); 
 
         const latlngs = data
-            .filter(record => filterDate(record.date)) 
             .filter(record => record.latitude !== null && record.longitude !== null)
+            .filter(record => record.date !== null && filterDate(record.date)) 
             .map(record => L.latLng(record.latitude, record.longitude))
 
         // Create a polyline from the coordinates and add it to the map
