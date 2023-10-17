@@ -80,10 +80,13 @@ const parseKML = (kmlXML) => {
 
 const filterDate = (date) => {
     const recordDate = new Date(date);
+    console.log(recordDate)
 
-    const start1 = '2023-06-01T00:00:00Z'
-    const end1 = '2023-07-02T00:00:00Z'
-    const start2 = '2023-07-02T00:00:00Z'
+    const start1 = '2023-06-01T00:00:00Z';
+    const end1 = '2023-07-02T00:00:00Z';
+    const start2 = '2023-07-02T00:00:00Z';
 
-    return (recordDate >= start1 && recordDate <= end1) || (recordDate >= start2)
+    const ret = (recordDate >= start1 && recordDate <= end1) || (recordDate >= start2);
+    console.log(ret);
+    return ret;
 };
