@@ -44,19 +44,19 @@ const parseKML = (kmlXML) => {
     const placemarks = kmlXML.querySelectorAll('Placemark');
      const records = [];
 
+    console.log(placemarks);
     placemarks.forEach(placemark => {
-        const timeElement = placemark.querySelector('ExtendedData > Data[name="Time UTC"] > value').textContent;
-        const latElement = placemark.querySelector('ExtendedData > Data[name="Latitude"] > value').textContent;
-        const lonElement = placemark.querySelector('ExtendedData > Data[name="Longitude"] > value').textContent;
-        const eleElement = placemark.querySelector('ExtendedData > Data[name="Elevation"] > value').textContent;
+        const timeElement = placemark.querySelector('ExtendedData > Data[name="Time UTC"] > value');
+        const latElement = placemark.querySelector('ExtendedData > Data[name="Latitude"] > value');
+        const lonElement = placemark.querySelector('ExtendedData > Data[name="Longitude"] > value');
+        const eleElement = placemark.querySelector('ExtendedData > Data[name="Elevation"] > value');
+        const velocityElement = placemark.querySelector('ExtendedData > Data[name="velocity"] > value');
 
-        const velocityElement = placemark.querySelector('ExtendedData > Data[name="velocity"] > value').textContent;
-
-        const time = timeElement
-        const lat = latElement ? parseFloat(latElement) : null;
-        const lon = lonElement ? parseFloat(lonElement) : null;
-        const ele = eleElement ? parseFloat(eleElement) : null;
-        const velocity = velocityElement ? parseFloat(velocityElement) : null;
+        const time = timeElement.textContent
+        const lat = latElement ? parseFloat(latElement.textContent) : null;
+        const lon = lonElement ? parseFloat(lonElement.textContent) : null;
+        const ele = eleElement ? parseFloat(eleElement.textContent) : null;
+        const velocity = velocityElement ? parseFloat(velocityElement.textContent) : null;
 
         const record = {
             time: time,
