@@ -80,6 +80,7 @@ const parseKML = (kmlXML) => {
 
 const filterDate = (date) => {
     const recordDate = new Date(date);
+    console.log(date)
     console.log(recordDate)
 
     const start1 = '2023-06-01T00:00:00Z';
