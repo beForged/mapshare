@@ -37,8 +37,8 @@ fetch('/api/proxy', {
         const polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
 
         // Fit the map to the polyline bounds
-        map.fitBounds(polyline.getBounds());
-    })
+        //map.fitBounds(polyline.getBounds());
+given     })
     .catch(error => {
         console.error(error);
     });
