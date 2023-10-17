@@ -27,10 +27,11 @@ fetch('/api/proxy', {
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
 
         const data = parseKML(kmlDoc); 
+        console.log data
 
         const latlngs = data
             .filter(record => record.latitude !== null && record.longitude !== null)
-            .filter(record => record.date !== null && !filterDate(record.date)) 
+            .filter(record => record.time!== null && !filterDate(record.time)) 
             .map(record => L.latLng(record.latitude, record.longitude))
 
         console.log("latlngs: ", latlngs);
@@ -80,14 +81,11 @@ const parseKML = (kmlXML) => {
 
 const filterDate = (date) => {
     const recordDate = new Date(date);
-    console.log(date)
-    console.log(recordDate)
 
     const start1 = '2023-06-01T00:00:00Z';
     const end1 = '2023-07-02T00:00:00Z';
     const start2 = '2023-07-02T00:00:00Z';
 
     const ret = (recordDate >= start1 && recordDate <= end1) || (recordDate >= start2);
-    console.log(ret);
     return ret;
 };
