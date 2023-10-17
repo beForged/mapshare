@@ -31,7 +31,7 @@ fetch('/api/proxy', {
 
         const latlngs = data
             .filter(record => record.latitude !== null && record.longitude !== null)
-            .filter(record => record.time!== null && !filterDate(record.time)) 
+            .filter(record => record.time !== null && !filterDate(record.time)) 
             .map(record => L.latLng(record.latitude, record.longitude))
 
         console.log("latlngs: ", latlngs);
