@@ -22,7 +22,7 @@ fetch('/api/proxy', {
 })
     .then(response => response.text())
     .then(kmlText => {
-        console.log(kmlText);
+        //console.log(kmlText);
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
 
@@ -30,14 +30,15 @@ fetch('/api/proxy', {
 
         const latlngs = data
             .filter(record => record.latitude !== null && record.longitude !== null)
-            .filter(record => record.date !== null && filterDate(record.date)) 
+            .filter(record => record.date !== null && !filterDate(record.date)) 
             .map(record => L.latLng(record.latitude, record.longitude))
 
+        console.log("latlngs: ", latlngs);
         // Create a polyline from the coordinates and add it to the map
         const polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
 
         // Fit the map to the polyline bounds
-        //map.fitBounds(polyline.getBounds());
+        map.fitBounds(polyline.getBounds());
 })
     .catch(error => {
         console.error(error);
@@ -49,7 +50,7 @@ const parseKML = (kmlXML) => {
     const placemarks = kmlXML.querySelectorAll('Placemark');
      const records = [];
 
-    console.log(placemarks);
+    //console.log(placemarks);
     placemarks.forEach(placemark => {
         const timeElement = placemark.querySelector('ExtendedData > Data[name="Time UTC"] > value');
         const latElement = placemark.querySelector('ExtendedData > Data[name="Latitude"] > value');
