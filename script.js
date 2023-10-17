@@ -27,7 +27,7 @@ fetch('/api/proxy', {
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
 
         const data = parseKML(kmlDoc); 
-        console.log data
+        console.log(data)
 
         const latlngs = data
             .filter(record => record.latitude !== null && record.longitude !== null)
