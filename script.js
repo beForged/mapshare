@@ -26,7 +26,9 @@ fetch('/api/proxy', {
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
         const data = parseKML(kmlDoc); 
-        const latlngs = data.map(record => L.latLng(record.latitude, record.longitude))
+        const latlngs = data
+            .filter(record => record.latitude !== null && record.longitude !== null)
+            .map(record => L.latLng(record.latitude, record.longitude))
 
         // Create a polyline from the coordinates and add it to the map
         const polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
@@ -52,7 +54,7 @@ const parseKML = (kmlXML) => {
         const eleElement = placemark.querySelector('ExtendedData > Data[name="Elevation"] > value');
         const velocityElement = placemark.querySelector('ExtendedData > Data[name="velocity"] > value');
 
-        const time = timeElement.textContent
+        const time = timeElement ? timeElement.textContent : null;
         const lat = latElement ? parseFloat(latElement.textContent) : null;
         const lon = lonElement ? parseFloat(lonElement.textContent) : null;
         const ele = eleElement ? parseFloat(eleElement.textContent) : null;
