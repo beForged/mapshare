@@ -41,7 +41,7 @@ fetch('/api/proxy', {
 // ---------------------
 
 const parseKML = (kmlXML) => {
-    const placemarks = xmlDoc.querySelectorAll('Placemark');
+    const placemarks = kmlXML.querySelectorAll('Placemark');
      const records = [];
 
     placemarks.forEach(placemark => {
