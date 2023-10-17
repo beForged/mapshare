@@ -25,13 +25,8 @@ fetch('/api/proxy', {
         console.log(kmlText);
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
-        const coordinatesElements = kmlDoc.querySelectorAll('coordinates');
-        const allCoordinates = Array.from(coordinatesElements).map(coordElement => coordElement.textContent.trim().split(' '));
-        console.log(allCoordinates);
-        const latlngs = allCoordinates.map(coord => {
-            const [lng, lat] = coord.split(',').map(parseFloat);
-            return L.latLng(lat, lng);
-        });
+        const data = parseKML(kmlDoc); 
+        const latlngs = data.map(record => L.latLng(record.latitude, record.longitude))
 
         // Create a polyline from the coordinates and add it to the map
         const polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
@@ -43,3 +38,36 @@ fetch('/api/proxy', {
         console.error(error);
     });
 
+// ---------------------
+
+const parseKML = (kmlXML) => {
+    const placemarks = xmlDoc.querySelectorAll('Placemark');
+     const records = [];
+
+    placemarks.forEach(placemark => {
+        const timeElement = placemark.querySelector('ExtendedData > Data[name="Time UTC"] > value').textContent;
+        const latElement = placemark.querySelector('ExtendedData > Data[name="Latitude"] > value').textContent;
+        const lonElement = placemark.querySelector('ExtendedData > Data[name="Longitude"] > value').textContent;
+        const eleElement = placemark.querySelector('ExtendedData > Data[name="Elevation"] > value').textContent;
+
+        const velocityElement = placemark.querySelector('ExtendedData > Data[name="velocity"] > value').textContent;
+
+        const time = timeElement
+        const lat = latElement ? parseFloat(latElement) : null;
+        const lon = lonElement ? parseFloat(lonElement) : null;
+        const ele = eleElement ? parseFloat(eleElement) : null;
+        const velocity = velocityElement ? parseFloat(velocityElement) : null;
+
+        const record = {
+            time: time,
+            latitude: lat,
+            longitude: lon,
+            elevation: ele,
+            velocity: velocity
+        };
+
+        records.push(record);
+    });
+
+    return records;
+};
