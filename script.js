@@ -38,7 +38,7 @@ fetch('/api/proxy', {
 
         // Fit the map to the polyline bounds
         //map.fitBounds(polyline.getBounds());
-given     })
+})
     .catch(error => {
         console.error(error);
     });
