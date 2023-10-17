@@ -25,9 +25,10 @@ fetch('/api/proxy', {
         console.log(kmlText);
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
-        const trackCoordinates = kmlDoc.querySelectorAll('coordinates')[0].textContent.trim().split(' ');
-        console.log(trackCoordinates);
-        const latlngs = trackCoordinates.map(coord => {
+        const coordinatesElements = kmlDoc.querySelectorAll('coordinates');
+        const allCoordinates = Array.from(coordinatesElements).map(coordElement => coordElement.textContent.trim().split(' '));
+        console.log(allCoordinates);
+        const latlngs = allCoordinates.map(coord => {
             const [lng, lat] = coord.split(',').map(parseFloat);
             return L.latLng(lat, lng);
         });
