@@ -9,6 +9,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
+let data;
 // Fetch the Garmin KML data and add it to the map via proxy
 fetch('/api/proxy', {
     method: 'POST',
@@ -22,19 +23,18 @@ fetch('/api/proxy', {
 })
     .then(response => response.text())
     .then(kmlText => {
-        //console.log(kmlText);
         const parser = new DOMParser();
         const kmlDoc = parser.parseFromString(kmlText, 'text/xml');
 
-        const data = parseKML(kmlDoc); 
-        console.log(data)
+        data = parseKML(kmlDoc); 
 
         const latlngs = data
-            .filter(record => record.latitude !== null && record.longitude !== null)
-            .filter(record => record.time !== null && filterDate(record.time)) 
+            .filter(record => record.latitude !== null && 
+                record.longitude !== null &&
+                record => record.time !== null && 
+                filterDate(record.time)) 
             .map(record => L.latLng(record.latitude, record.longitude))
 
-        console.log("latlngs: ", latlngs);
         // Create a polyline from the coordinates and add it to the map
         const polyline = L.polyline(latlngs, { color: 'red' }).addTo(map);
 
@@ -45,13 +45,25 @@ fetch('/api/proxy', {
         console.error(error);
     });
 
+
+var markers = [];
+
+function updateMarkers() {
+    markers.forEach(marker => marker.removeFrom(map));
+    markers = [];
+
+    var zoomLevel = map.getZoom();
+
+    data.forEach(point => {
+        if (zoomLevel >= 10) {
+
+
 // ---------------------
 
 const parseKML = (kmlXML) => {
     const placemarks = kmlXML.querySelectorAll('Placemark');
      const records = [];
 
-    //console.log(placemarks);
     placemarks.forEach(placemark => {
         const timeElement = placemark.querySelector('ExtendedData > Data[name="Time UTC"] > value');
         const latElement = placemark.querySelector('ExtendedData > Data[name="Latitude"] > value');
