@@ -29,10 +29,10 @@ fetch('/api/proxy', {
         data = parseKML(kmlDoc); 
 
         const latlngs = data
-            .filter(record => { record.latitude !== null && 
+            .filter((record) => record.latitude !== null && 
                 record.longitude !== null &&
-                record => record.time !== null && 
-                filterDate(record.time)}) 
+                record >= record.time !== null && 
+                filterDate(record.time))
             .map(record => L.latLng(record.latitude, record.longitude))
 
         // Create a polyline from the coordinates and add it to the map
@@ -47,15 +47,6 @@ fetch('/api/proxy', {
 
 
 var markers = [];
-
-function updateMarkers() {
-    markers.forEach(marker => marker.removeFrom(map));
-    markers = [];
-
-    var zoomLevel = map.getZoom();
-
-    data.forEach(point => {
-        if (zoomLevel >= 10) {
 
 
 // ---------------------
